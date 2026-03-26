@@ -1,13 +1,17 @@
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import Error from "./Error"
+import { usePacienteStore } from '../store/store'
+import type { DraftPatient } from '../types'
 
 const Formulario = () => {
 
-    const { register, handleSubmit, formState: { errors } } = useForm()
+    const { register, handleSubmit, formState: { errors } } = useForm<DraftPatient>()
 
-    const registrarPaciente = () => {
-        console.log("Registrando paciente...")
+    const registrarPaciente = (data: DraftPatient) => {
+        // Opción 1: Usar getState()
+        usePacienteStore.getState().agregarPaciente(data)
+
     }
 
     return (
