@@ -1,1 +1,6 @@
 @import "tailwindcss";
+
+.Toastify__toast {
+	border-radius: 1rem;
+	backdrop-filter: blur(12px);
+}
