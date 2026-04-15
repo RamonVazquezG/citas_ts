@@ -3,23 +3,48 @@ import { useForm } from 'react-hook-form'
 import Error from "./Error"
 import { usePacienteStore } from '../store/store'
 import type { DraftPatient } from '../types'
+import { useEffect } from 'react'
 
 const Formulario = () => {
 
-    const { register, handleSubmit, formState: { errors } } = useForm<DraftPatient>()
+    const pacienteActivo = usePacienteStore((state) => state.pacienteActivo)
+    const { register, handleSubmit, formState: { errors }, setValue, reset } = useForm<DraftPatient>()
+    const agregarPaciente = usePacienteStore((state) => state.agregarPaciente)
+    const actualizarPaciente = usePacienteStore((state) => state.actualizarPaciente)
+    const limpiarPacienteActivo = usePacienteStore((state) => state.limpiarPacienteActivo)
 
     const registrarPaciente = (data: DraftPatient) => {
         // Opción 1: Usar getState()
-        usePacienteStore.getState().agregarPaciente(data)
-
+        //usePacienteStore.getState().agregarPaciente(data)
+        if (pacienteActivo) {
+            actualizarPaciente(data)
+        } else {
+            agregarPaciente(data)
+        }
+        reset()
     }
+
+    const handleCancelar = () => {
+        limpiarPacienteActivo() // Limpiar el paciente activo en el store
+        reset() // Limpiar el formulario
+    }
+
+    useEffect(() => {
+        if (pacienteActivo) {
+            setValue('name', pacienteActivo.name)
+            setValue('caretaker', pacienteActivo.caretaker)
+            setValue('email', pacienteActivo.email)
+            setValue('date', pacienteActivo.date)
+            setValue('symptoms', pacienteActivo.symptoms)
+        }
+    }, [setValue])
 
     return (
         <div className="md:w-1/2 lg:w-2/5 mx-5">
             <h2 className="font-black text-3xl text-center">Seguimiento Pacientes</h2>
 
             <p className="text-lg mt-5 text-center mb-10">
-                Añade Pacientes y {''}
+                {pacienteActivo ? 'Edita el Paciente y ' : 'Añade Pacientes y '}
                 <span className="text-indigo-600 font-bold">Administralos</span>
             </p>
 
@@ -43,8 +68,8 @@ const Formulario = () => {
                             maxLength: { value: 50, message: "El nombre no puede exceder los 50 caracteres" },
                         })}
                     />
-                    
-                    {errors.name && 
+
+                    {errors.name &&
                         <Error>{errors.name?.message?.toString()}</Error>
                     }
                 </div>
@@ -65,7 +90,7 @@ const Formulario = () => {
                             maxLength: { value: 50, message: "El nombre no puede exceder los 50 caracteres" },
                         })}
                     />
-                    {errors.caretaker && 
+                    {errors.caretaker &&
                         <Error>{errors.caretaker?.message?.toString()}</Error>
                     }
                 </div>
@@ -87,7 +112,7 @@ const Formulario = () => {
                             }
                         })}
                     />
-                    {errors.email && 
+                    {errors.email &&
                         <Error>{errors.email?.message?.toString()}</Error>
                     }
                 </div>
@@ -104,7 +129,7 @@ const Formulario = () => {
                             required: "La fecha es obligatoria",
                         })}
                     />
-                    {errors.date && 
+                    {errors.date &&
                         <Error>{errors.date?.message?.toString()}</Error>
                     }
                 </div>
@@ -121,7 +146,7 @@ const Formulario = () => {
                             required: "Los sintomas son obligatorios",
                         })}
                     ></textarea>
-                    {errors.symptoms && 
+                    {errors.symptoms &&
                         <Error>{errors.symptoms?.message?.toString()}</Error>
                     }
                 </div>
@@ -129,8 +154,18 @@ const Formulario = () => {
                 <input
                     type="submit"
                     className="bg-indigo-600 w-full p-3 text-white uppercase font-bold hover:bg-indigo-700 cursor-pointer transition-colors"
-                    value='Guardar Paciente'
+                    value={pacienteActivo ? 'Editar Paciente' : 'Agregar Paciente'}
                 />
+
+                {pacienteActivo && (
+                    <button
+                        type="button"
+                        className="bg-gray-600 w-full p-3 text-white uppercase font-bold hover:bg-gray-700 cursor-pointer transition-colors mt-3"
+                        onClick={handleCancelar}
+                    >
+                        Cancelar
+                    </button>
+                )}
             </form>
         </div>
     )

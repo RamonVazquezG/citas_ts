@@ -3,7 +3,7 @@ import PacienteDetalle from "./PacienteDetalle"
 import { usePacienteStore } from '../store/store'
 import DialogModal from "./DialogModal";
 import { useState } from "react";
-  import { toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 
 type PacienteProps = {
     paciente: Patient
@@ -12,6 +12,9 @@ type PacienteProps = {
 const Paciente = ({ paciente }: PacienteProps) => {
     const eliminarPaciente = usePacienteStore((state) => state.eliminarPaciente)
     //const getPatientById = usePacienteStore((state) => state.getPatientById)
+
+    const establecerPacienteActivo =
+        usePacienteStore((state) => state.establecerPacienteActivo)
 
     const [isOpened, setIsOpened] = useState(false);
 
@@ -41,6 +44,10 @@ const Paciente = ({ paciente }: PacienteProps) => {
         );
     }
 
+    const handleClickEditar = () => {
+        establecerPacienteActivo(paciente); // Enviar el objeto completo
+    }
+
     return (
         <div className="mx-5 my-10 px-5 py-10 bg-white shadow-md rounded-xl">
             <PacienteDetalle label="ID" data={paciente.id} />
@@ -54,7 +61,7 @@ const Paciente = ({ paciente }: PacienteProps) => {
                 <button
                     type="button"
                     className="py-2 px-10 bg-indigo-600 hover:bg-indigo-700 text-white font-bold uppercase rounded-lg"
-                    onClick={() => console.log(paciente.id)}
+                    onClick={() => handleClickEditar}
                 >Editar</button>
 
                 <button
@@ -68,8 +75,8 @@ const Paciente = ({ paciente }: PacienteProps) => {
                     isOpened={isOpened}
                     onProceed={handleClickEliminar}
                     onClose={() => setIsOpened(false)}
-                    >
-                        <p>To close: click Close, press Escape, or click outside.</p>
+                >
+                    <p>To close: click Close, press Escape, or click outside.</p>
                 </DialogModal>
             </div>
         </div>
