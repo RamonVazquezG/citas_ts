@@ -1,4 +1,3 @@
-import React from 'react'
 import { useForm } from 'react-hook-form'
 import Error from "./Error"
 import { usePacienteStore } from '../store/store'
@@ -8,10 +7,11 @@ import { useEffect } from 'react'
 const Formulario = () => {
 
     const pacienteActivo = usePacienteStore((state) => state.pacienteActivo)
-    const { register, handleSubmit, formState: { errors }, setValue, reset } = useForm<DraftPatient>()
     const agregarPaciente = usePacienteStore((state) => state.agregarPaciente)
     const actualizarPaciente = usePacienteStore((state) => state.actualizarPaciente)
     const limpiarPacienteActivo = usePacienteStore((state) => state.limpiarPacienteActivo)
+
+    const { register, handleSubmit, formState: { errors }, setValue, reset } = useForm<DraftPatient>()
 
     const registrarPaciente = (data: DraftPatient) => {
         // Opción 1: Usar getState()
@@ -37,7 +37,7 @@ const Formulario = () => {
             setValue('date', pacienteActivo.date)
             setValue('symptoms', pacienteActivo.symptoms)
         }
-    }, [setValue])
+    }, [pacienteActivo, reset])
 
     return (
         <div className="md:w-1/2 lg:w-2/5 mx-5">
@@ -154,7 +154,7 @@ const Formulario = () => {
                 <input
                     type="submit"
                     className="bg-indigo-600 w-full p-3 text-white uppercase font-bold hover:bg-indigo-700 cursor-pointer transition-colors"
-                    value={pacienteActivo ? 'Editar Paciente' : 'Agregar Paciente'}
+                    value={pacienteActivo ? 'Actualizar Paciente' : 'Agregar Paciente'}
                 />
 
                 {pacienteActivo && (

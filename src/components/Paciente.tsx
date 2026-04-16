@@ -10,13 +10,12 @@ type PacienteProps = {
 }
 
 const Paciente = ({ paciente }: PacienteProps) => {
-    const eliminarPaciente = usePacienteStore((state) => state.eliminarPaciente)
     //const getPatientById = usePacienteStore((state) => state.getPatientById)
 
-    const establecerPacienteActivo =
-        usePacienteStore((state) => state.establecerPacienteActivo)
-
     const [isOpened, setIsOpened] = useState(false);
+
+    const establecerPacienteActivo = usePacienteStore((state) => state.establecerPacienteActivo)
+    const eliminarPaciente = usePacienteStore((state) => state.eliminarPaciente)
 
     const handleClickEliminar = () => {
         const pacienteEliminado = { ...paciente }; // Guardar una copia del paciente eliminado
@@ -61,7 +60,7 @@ const Paciente = ({ paciente }: PacienteProps) => {
                 <button
                     type="button"
                     className="py-2 px-10 bg-indigo-600 hover:bg-indigo-700 text-white font-bold uppercase rounded-lg"
-                    onClick={() => handleClickEditar}
+                    onClick={handleClickEditar}
                 >Editar</button>
 
                 <button
