@@ -1,4 +1,3 @@
-import React from 'react'
 import { usePacienteStore } from '../store/store'
 import Paciente from './Paciente';
 
@@ -7,9 +6,6 @@ const ListadoPacientes = () => {
   const pacientes = usePacienteStore(state => state.pacientes)
 
 
-  const degradadoTarjetaNoUrgente = "from-cyan-400 via-blue-500 to-fuchsia-500";
-  const textoNoUrgente = "text-cyan-300";
-  const hoverNoUrgente = "hover:border-cyan-300/40";
 
   return (
     <div>

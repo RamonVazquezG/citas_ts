@@ -14,6 +14,7 @@ const Paciente = ({ paciente }: PacienteProps) => {
 
     const [isOpened, setIsOpened] = useState(false);
 
+    // Nuevo
     const establecerPacienteActivo = usePacienteStore((state) => state.establecerPacienteActivo)
     const eliminarPaciente = usePacienteStore((state) => state.eliminarPaciente)
 
@@ -43,6 +44,7 @@ const Paciente = ({ paciente }: PacienteProps) => {
         );
     }
 
+    // Nuevo
     const handleClickEditar = () => {
         establecerPacienteActivo(paciente); // Enviar el objeto completo
     }

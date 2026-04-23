@@ -14,8 +14,6 @@ const Formulario = () => {
     const { register, handleSubmit, formState: { errors }, setValue, reset } = useForm<DraftPatient>()
 
     const registrarPaciente = (data: DraftPatient) => {
-        // Opción 1: Usar getState()
-        //usePacienteStore.getState().agregarPaciente(data)
         if (pacienteActivo) {
             actualizarPaciente(data)
         } else {
@@ -37,7 +35,7 @@ const Formulario = () => {
             setValue('date', pacienteActivo.date)
             setValue('symptoms', pacienteActivo.symptoms)
         }
-    }, [pacienteActivo, reset])
+    }, [pacienteActivo])
 
     return (
         <div className="md:w-1/2 lg:w-2/5 mx-5">

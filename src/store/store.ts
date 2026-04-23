@@ -41,11 +41,13 @@ export const usePacienteStore = create<PacientesState>()(
                     pacientes: state.pacientes.filter(paciente => paciente.id !== id)
                 })),
 
+                // Nuevo
             establecerPacienteActivo: (paciente) =>
                 set(() => ({
                     pacienteActivo: paciente
                 })),
 
+                // Nuevo
             actualizarPaciente: (data) =>
                 set((state) => ({
                     pacientes: state.pacientes.map(paciente =>
@@ -56,6 +58,7 @@ export const usePacienteStore = create<PacientesState>()(
                     pacienteActivo: null // Limpiar despues de actualizar
                 })),
 
+                // Nuevo
             limpiarPacienteActivo: () =>
                 set(() => ({
                     pacienteActivo: null
